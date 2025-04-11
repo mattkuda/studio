@@ -9,11 +9,20 @@ import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Table
 import {Icons} from "@/components/icons";
 import {useToast} from "@/hooks/use-toast";
 
-type AnalysisResult = {
+type FoodItem = {
+  name: string;
   calories: number;
   protein: number;
   carbs: number;
   fat: number;
+};
+
+type AnalysisResult = {
+  foodItems: FoodItem[];
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
 };
 
 export default function Home() {
@@ -85,24 +94,50 @@ export default function Home() {
             <CardDescription>Estimated nutritional breakdown:</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Calories</TableHead>
-                  <TableHead>Protein (g)</TableHead>
-                  <TableHead>Carbs (g)</TableHead>
-                  <TableHead>Fat (g)</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>{analysisResult.calories}</TableCell>
-                  <TableCell>{analysisResult.protein}</TableCell>
-                  <TableCell>{analysisResult.carbs}</TableCell>
-                  <TableCell>{analysisResult.fat}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            {analysisResult.foodItems.map((item, index) => (
+              <div key={index} className="mb-4">
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Calories</TableHead>
+                      <TableHead>Protein (🍗 g)</TableHead>
+                      <TableHead>Carbs (🌾 g)</TableHead>
+                      <TableHead>Fat (🥑 g)</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>{item.calories}</TableCell>
+                      <TableCell>{item.protein}</TableCell>
+                      <TableCell>{item.carbs}</TableCell>
+                      <TableCell>{item.fat}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+            ))}
+            <div className="mt-4">
+              <h3 className="text-xl font-semibold">Totals:</h3>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Calories</TableHead>
+                    <TableHead>Protein (🍗 g)</TableHead>
+                    <TableHead>Carbs (🌾 g)</TableHead>
+                    <TableHead>Fat (🥑 g)</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{analysisResult.totalCalories}</TableCell>
+                    <TableCell>{analysisResult.totalProtein}</TableCell>
+                    <TableCell>{analysisResult.totalCarbs}</TableCell>
+                    <TableCell>{analysisResult.totalFat}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       )}
@@ -118,18 +153,18 @@ export default function Home() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Calories</TableHead>
-                  <TableHead>Protein (g)</TableHead>
-                  <TableHead>Carbs (g)</TableHead>
-                  <TableHead>Fat (g)</TableHead>
+                  <TableHead>Protein (🍗 g)</TableHead>
+                  <TableHead>Carbs (🌾 g)</TableHead>
+                  <TableHead>Fat (🥑 g)</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {analysisHistory.map((result, index) => (
                   <TableRow key={index}>
-                    <TableCell>{result.calories}</TableCell>
-                    <TableCell>{result.protein}</TableCell>
-                    <TableCell>{result.carbs}</TableCell>
-                    <TableCell>{result.fat}</TableCell>
+                    <TableCell>{result.totalCalories}</TableCell>
+                    <TableCell>{result.totalProtein}</TableCell>
+                    <TableCell>{result.totalCarbs}</TableCell>
+                    <TableCell>{result.totalFat}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
